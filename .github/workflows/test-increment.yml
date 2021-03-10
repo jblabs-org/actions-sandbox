@@ -26,7 +26,7 @@ jobs:
       - name: Commit release version
         uses: EndBug/add-and-commit@v7
         with:
-          message: Releasing v${{ steps.get_version.outputs.VERSION }}
+          message: Released v${{ steps.get_version.outputs.VERSION }}
 
       - name: "Build Changelog"
         id: changelog
@@ -58,10 +58,10 @@ jobs:
       - name: Get next snapshot version
         id: get_next_snapshot_version
         run: |
-          VERSION=$( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )
-          echo "::set-output name=VERSION::$VERSION"
+          NEXT_VERSION=$( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )
+          echo "::set-output name=NEXT_VERSION::$NEXT_VERSION"
         
       - name: Commit next SNAPSHOT version
         uses: EndBug/add-and-commit@v7
         with:
-          message: Incrementing to snapshot v${{ steps.get_version.outputs.VERSION }}
+          message: Incremented to snapshot v${{ steps.get_next_snapshot_version.outputs.NEXT_VERSION }}
