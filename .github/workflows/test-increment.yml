@@ -17,12 +17,6 @@ jobs:
       - name: Remove SNAPSHOT from versions
         run: mvn versions:set -DremoveSnapshot=true versions:commit --no-transfer-progress
 
-      - name: "Build Changelog"
-        id: changelog
-        uses: mikepenz/release-changelog-builder-action@v1.6.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Get version
         id: get_version
         run: |
@@ -34,6 +28,14 @@ jobs:
         with:
           message: Releasing v${{ steps.get_version.outputs.VERSION }}
 
+      - name: "Build Changelog"
+        id: changelog
+        uses: mikepenz/release-changelog-builder-action@v1.6.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          toTag: v${{ steps.get_version.outputs.VERSION }}
+          
       - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
