@@ -1,6 +1,6 @@
 name: release
 on: 
-  workflow_dispatch: release
+  workflow_dispatch
 jobs:
   printStuff:
     runs-on: ubuntu-latest
